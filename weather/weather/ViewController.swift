@@ -11,9 +11,10 @@ class ViewController: UIViewController {
     
     private lazy var backgroundView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "background")
         imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
@@ -45,6 +46,14 @@ class ViewController: UIViewController {
         return label
     }()
     
+    private lazy var weatherIcon: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "sunIcon")
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +73,7 @@ class ViewController: UIViewController {
         
         headerView.addSubview(cityLabel)
         headerView.addSubview(temperatureLabel)
+        headerView.addSubview(weatherIcon)
     }
     
     private func setConstraints() {
@@ -88,7 +98,12 @@ class ViewController: UIViewController {
             cityLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15),
             cityLabel.heightAnchor.constraint(equalToConstant: 20),
             temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 21),
-            temperatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor,constant: 26)
+            temperatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor,constant: 26),
+            weatherIcon.heightAnchor.constraint(equalToConstant: 86),
+            weatherIcon.widthAnchor.constraint(equalToConstant: 86),
+            weatherIcon.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -26),
+            weatherIcon.centerYAnchor.constraint(equalTo: temperatureLabel.centerYAnchor),
+            weatherIcon.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 15)
         ])
         
         
