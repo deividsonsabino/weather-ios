@@ -126,6 +126,17 @@ class ViewController: UIViewController {
         return label
     }()
     
+    private lazy var hourlyCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 67, height: 84)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .red
+        return collectionView
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,6 +155,7 @@ class ViewController: UIViewController {
         view.addSubview(headerView)
         view.addSubview(statsStackView)
         view.addSubview(hourlyForecastLabel)
+        view.addSubview(hourlyCollectionView)
         
         headerView.addSubview(cityLabel)
         headerView.addSubview(temperatureLabel)
@@ -189,7 +201,12 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             hourlyForecastLabel.topAnchor.constraint(equalTo: statsStackView.bottomAnchor,constant: 29),
             hourlyForecastLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
-            hourlyForecastLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35)
+            hourlyForecastLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
+            hourlyCollectionView.topAnchor.constraint(equalTo: hourlyForecastLabel.bottomAnchor, constant: 22),
+            hourlyCollectionView.heightAnchor.constraint(equalToConstant: 84),
+            hourlyCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hourlyCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            
         ])
     }
 
