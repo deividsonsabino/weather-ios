@@ -152,8 +152,8 @@ class ViewController: UIViewController {
     private lazy var dailyForecastTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .red
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
         tableView.register(DailyForecastTableViewCell.self, forCellReuseIdentifier: DailyForecastTableViewCell.indetifier)
         return tableView
     }()
