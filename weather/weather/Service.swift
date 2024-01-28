@@ -23,7 +23,7 @@ class Service {
         guard let url = URL(string: urlString) else { return }
         
         let task = session.dataTask(with: url) { data, response, error in
-            completion("Oi")
+            completion("Hello world")
         }
         task.resume()
     }
