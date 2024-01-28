@@ -25,7 +25,6 @@ class Service {
         let task = session.dataTask(with: url) { data, response, error in
             completion("Oi")
         }
-        
         task.resume()
     }
 }
