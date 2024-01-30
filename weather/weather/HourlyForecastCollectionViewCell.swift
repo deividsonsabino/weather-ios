@@ -13,7 +13,6 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     private lazy var hourLbael: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "13:00"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         label.textAlignment = .center
@@ -23,7 +22,6 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     private lazy var tempLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "25°C"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.textAlignment = .center
@@ -33,7 +31,6 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     private lazy var weatherIcon: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "sunIcon")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -60,6 +57,12 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func loadData(time: String?, icon: UIImage?, temp: String?) {
+        hourLbael.text = time
+        weatherIcon.image = icon
+        tempLabel.text = temp
+    }
+    
     private func setupView() {
         setHierarchy()
         setConstraints()
@@ -75,7 +78,7 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
             hourlySatckView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             hourlySatckView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             hourlySatckView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            weatherIcon.heightAnchor.constraint(equalToConstant: 33)
+            weatherIcon.heightAnchor.constraint(equalToConstant: 33),
         ])
     }
 }

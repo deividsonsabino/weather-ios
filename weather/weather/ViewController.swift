@@ -30,7 +30,6 @@ class ViewController: UIViewController {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 20)
-        label.text = "Sao Paulo"
         label.textAlignment = .center
         label.textColor = UIColor(named: "primaryColor")
         return label
@@ -40,7 +39,6 @@ class ViewController: UIViewController {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 70, weight: .bold)
-        label.text = "25°C"
         label.textAlignment = .left
         label.textColor = UIColor(named: "primaryColor")
         return label
@@ -54,7 +52,7 @@ class ViewController: UIViewController {
         return imageView
     }()
         
-    private lazy var umidityLabel: UILabel = {
+    private lazy var humidityLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -63,11 +61,10 @@ class ViewController: UIViewController {
         return label
     }()
     
-    private lazy var umidityLabelValue: UILabel = {
+    private lazy var humidityLabelValue: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        label.text = "1000mm"
         label.textColor = .white
         return label
     }()
@@ -85,13 +82,12 @@ class ViewController: UIViewController {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        label.text = "10km/h"
         label.textColor = .white
         return label
     }()
     
     private lazy var umidityStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [umidityLabel,umidityLabelValue])
+        let stackView = UIStackView(arrangedSubviews: [humidityLabel,humidityLabelValue])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         return stackView
@@ -159,14 +155,33 @@ class ViewController: UIViewController {
     }()
     
     private let service = Service()
+    private var city = City(lat: "-23.6814346", lon: "-46.9249599", name: "Sao Paulo")
+    private var forecastResponse: ForecastResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        
-        service.fetchData(city: City(lat: "-23.6814346", long: "-46.9249599", name: "Sao Paulo")) { message in
-            print(message)
+        fetchData()
+
+    }
+    
+    private func fetchData() {
+        service.fetchData(city: city) { [ weak self ] response in
+            self?.forecastResponse = response
+            DispatchQueue.main.async {
+                self?.loadData()
+            }
+            
         }
+    }
+    
+    private func loadData() {
+        cityLabel.text = city.name
+        temperatureLabel.text = forecastResponse?.current.temp.toCelsius()
+        humidityLabelValue.text = "\(forecastResponse?.current.humidity ?? 0)mm"
+        windLabelValue.text = "\(forecastResponse?.current.windSpeed ?? 0)km/h"
+        
+        hourlyCollectionView.reloadData()
     }
     
     private func setupView() {
@@ -211,12 +226,12 @@ class ViewController: UIViewController {
             cityLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15),
             cityLabel.heightAnchor.constraint(equalToConstant: 20),
             temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 21),
-            temperatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor,constant: 26),
+            temperatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor,constant: 18),
             weatherIcon.heightAnchor.constraint(equalToConstant: 86),
             weatherIcon.widthAnchor.constraint(equalToConstant: 86),
-            weatherIcon.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -26),
+            weatherIcon.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -18),
             weatherIcon.centerYAnchor.constraint(equalTo: temperatureLabel.centerYAnchor),
-            weatherIcon.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 15)
+            weatherIcon.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 8)
         ])
         
         NSLayoutConstraint.activate([
@@ -253,11 +268,15 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return forecastResponse?.hourly.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCollectionViewCell.indentifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCollectionViewCell.indentifier, for: indexPath) as? HourlyForecastCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let forecast = forecastResponse?.hourly[indexPath.row]
+        cell.loadData(time: forecast?.dt.toHourFormat(), icon: UIImage(named: "sunIcon"), temp: forecast?.temp.toCelsius())
         
         return cell
     }

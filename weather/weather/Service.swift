@@ -8,7 +8,7 @@
 import Foundation
 
 struct City {
-    let lat, long, name: String
+    let lat, lon, name: String
 }
 
 class Service {
@@ -17,22 +17,29 @@ class Service {
     private let apikey: String = "1251aeeecc49fa3167162bcd3bbfe9e4"
     private let session = URLSession.shared
     
-    func fetchData(city: City, _ completion: @escaping (String) -> Void) {
-        let urlString = "\(baseUrl)?lat=\(city.lat)&long=\(city.long)&appid=\(apikey)"
+    func fetchData(city: City, _ completion: @escaping (ForecastResponse?) -> Void) {
+        let urlString = "\(baseUrl)?lat=\(city.lat)&lon=\(city.lon)&appid=\(apikey)&units=metric"
         
         guard let url = URL(string: urlString) else { return }
         
         let task = session.dataTask(with: url) { data, response, error in
-            completion("Hello world")
+            guard let data else {
+                completion(nil)
+                return
+            }
+            
+            do {
+                let forecastResponse = try JSONDecoder().decode(ForecastResponse.self, from: data)
+                completion(forecastResponse)
+            } catch {
+                print(String(data: data, encoding: .utf8) ?? "")
+                completion(nil)
+            }
+            
         }
         task.resume()
     }
 }
-
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let forecastResponse = try? JSONDecoder().decode(ForecastResponse.self, from: jsonData)
 
 import Foundation
 
@@ -41,6 +48,10 @@ struct ForecastResponse: Codable {
     let current: Forecast
     let hourly: [Forecast]
     let daily: [DailyForecast]
+    
+    enum CodingKeys: String, CodingKey {
+        case current, hourly, daily
+    }
 }
 
 
@@ -78,8 +89,4 @@ struct Temp: Codable {
     let eve, morn: Double
 }
 
-// MARK: - Minutely
-struct Minutely: Codable {
-    let dt, precipitation: Int
-}
 

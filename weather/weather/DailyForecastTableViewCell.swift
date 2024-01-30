@@ -84,7 +84,7 @@ class DailyForecastTableViewCell: UITableViewCell {
             dailyForecastStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             dailyForecastStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             dailyForecastStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cloudIcon.heightAnchor.constraint(equalToConstant: 21)
+            cloudIcon.heightAnchor.constraint(equalToConstant: 21),
         ])
         
         NSLayoutConstraint.activate([

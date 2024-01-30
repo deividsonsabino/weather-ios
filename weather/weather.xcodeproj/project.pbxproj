@@ -15,6 +15,7 @@
 		62C29D252B61C06800BD3CD9 /* HourlyForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C29D242B61C06800BD3CD9 /* HourlyForecastCollectionViewCell.swift */; };
 		62C29D272B61E6B900BD3CD9 /* DailyForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C29D262B61E6B900BD3CD9 /* DailyForecastTableViewCell.swift */; };
 		62C29D292B63F68200BD3CD9 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C29D282B63F68200BD3CD9 /* Service.swift */; };
+		62C29D2B2B68995100BD3CD9 /* Core+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C29D2A2B68995100BD3CD9 /* Core+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		62C29D242B61C06800BD3CD9 /* HourlyForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		62C29D262B61E6B900BD3CD9 /* DailyForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastTableViewCell.swift; sourceTree = "<group>"; };
 		62C29D282B63F68200BD3CD9 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		62C29D2A2B68995100BD3CD9 /* Core+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				62C29D242B61C06800BD3CD9 /* HourlyForecastCollectionViewCell.swift */,
 				62C29D262B61E6B900BD3CD9 /* DailyForecastTableViewCell.swift */,
 				62C29D282B63F68200BD3CD9 /* Service.swift */,
+				62C29D2A2B68995100BD3CD9 /* Core+Extensions.swift */,
 				628268BF2B5D73DD0060CCBA /* Assets.xcassets */,
 				628268C12B5D73DD0060CCBA /* LaunchScreen.storyboard */,
 				628268C42B5D73DD0060CCBA /* Info.plist */,
@@ -147,6 +150,7 @@
 				62C29D272B61E6B900BD3CD9 /* DailyForecastTableViewCell.swift in Sources */,
 				628268B72B5D73D90060CCBA /* AppDelegate.swift in Sources */,
 				62C29D252B61C06800BD3CD9 /* HourlyForecastCollectionViewCell.swift in Sources */,
+				62C29D2B2B68995100BD3CD9 /* Core+Extensions.swift in Sources */,
 				628268B92B5D73D90060CCBA /* SceneDelegate.swift in Sources */,
 				62C29D292B63F68200BD3CD9 /* Service.swift in Sources */,
 			);
