@@ -182,6 +182,7 @@ class ViewController: UIViewController {
         windLabelValue.text = "\(forecastResponse?.current.windSpeed ?? 0)km/h"
         
         hourlyCollectionView.reloadData()
+        dailyForecastTableView.reloadData()
     }
     
     private func setupView() {
